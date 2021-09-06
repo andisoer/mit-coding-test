@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MIT Coding Test</string>
+    <string name="txt_input_character">Input Character</string>
+    <string name="txt_operation">Operation</string>
+    <string name="txt_result">Result</string>
+    <string name="txt_minus">-</string>
+</resources>
