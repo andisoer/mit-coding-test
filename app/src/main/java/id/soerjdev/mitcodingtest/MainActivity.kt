@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity() {
             arrayOperator.forEach { operator ->
                 if (operator == "H") {
                     result += transformHorizontal(char = value)
+                } else if (operator == "V") {
+                    result += transformVertical(char = value)
                 }
             }
         }
@@ -84,8 +86,13 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
-    private fun transformVertical(char: String): String {
-        return ""
+    private fun transformVertical(char: Map<String, Any>): String {
+        val keyboardChar = CharKeyboard()
+
+        val index = char["rowIndex"]
+        val indexInArray = char["indexInArray"]
+
+        return keyboardChar.keyboardChar[3 - index.toString().toInt()][indexInArray.toString().toInt()]
     }
 
     private fun transformHorizontal(char: Map<String, Any>): String {
