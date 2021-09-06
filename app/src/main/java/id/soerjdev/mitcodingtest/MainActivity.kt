@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun transform() {
         val char = binding.editTextInputChar.text.toString().trim().toLowerCase(Locale.getDefault())
-        val operator = binding.editTextInputOperation.text.toString().trim()
+        val operator = binding.editTextInputOperation.text.toString().trim().toUpperCase(Locale.getDefault())
 
         if (char.isEmpty()) {
             Toast.makeText(this, "Please fill your char", Toast.LENGTH_SHORT).show()
@@ -50,11 +50,15 @@ class MainActivity : AppCompatActivity() {
 
         filteredCharArray.forEach { value ->
             arrayOperator.forEach { operator ->
+                var output = ""
                 if (operator == "H") {
-                    result += transformHorizontal(char = value)
+                    output = transformHorizontal(char = value)
                 } else if (operator == "V") {
-                    result += transformVertical(char = value)
+                    output = transformVertical(char = value)
+                } else if (operator.toIntOrNull() != null && operator.toInt() < 10){
+                    output = shift(char = value, shiftStep = operator.toInt())
                 }
+                result += output
             }
         }
 
@@ -64,6 +68,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.textViewResult.text = text
+    }
+
+    private fun shift(char: Map<String, Any>, shiftStep: Int): String {
+        val keyboardChar = CharKeyboard()
+
+        var index = char["rowIndex"].toString().toInt()
+        var indexInArray = char["indexInArray"].toString().toInt() + shiftStep
+
+        if (indexInArray.toString().toInt() > 9) {
+            index += 1
+            indexInArray += -10
+        }
+
+        if (index > 3) {
+            index -= 4
+        }
+
+        return keyboardChar.keyboardChar[index][indexInArray]
     }
 
     private fun getCharFromArray(arrayChar: Array<String>): Array<MutableMap<String, Any>> {
